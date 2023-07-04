@@ -1,0 +1,59 @@
+module test (
+  input A,
+  input B,
+  input C,
+  input D,
+  output Z
+);
+
+  wire net_e, net_f, net_g;
+  reg FAULT_AT;
+  assign net_e = A & B;
+  assign net_f = C | D;
+  assign net_g = (~net_f) & (~FAULT_AT);
+  assign Z = net_g ^ net_e;
+
+endmodule  
+
+module test_tb;
+
+  reg A;
+  reg B;
+  reg C;
+  reg D;
+  wire Z;
+  
+  test dut(
+    .A(A),
+    .B(B),
+    .C(C),
+    .D(D),
+    .Z(Z)
+  );
+
+  reg [3:0] FAULT_AT;
+  reg FAULT_TYPE;
+  reg net_f;
+  initial begin
+    A = 0;
+    B = 0;
+    C = 0;
+    D = 1;
+
+    FAULT_AT = 4'b0010;
+    FAULT_TYPE = 1'b1;
+
+    if (FAULT_TYPE)
+      net_f = 1'b0;  
+    else
+      net_f = 1'b1; 
+
+    #10; 
+
+    $display("Input vector: [A, B, C, D] = [%b, %b, %b, %b]", A, B, C, D);
+    $display("Expected output: Z = %b", Z);
+
+    $finish;
+  end
+
+endmodule
