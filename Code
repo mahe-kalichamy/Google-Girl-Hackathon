@@ -1,3 +1,6 @@
+// Verilog code to Identify the fault in chips
+
+
 module test (
   input A,
   input B,
@@ -5,6 +8,8 @@ module test (
   input D,
   output Z
 );
+
+// Wires
 
   wire net_e, net_f, net_g;
   reg FAULT_AT;
@@ -14,6 +19,8 @@ module test (
   assign Z = net_g ^ net_e;
 
 endmodule  
+
+//module for fault identification
 
 module test_tb;
 
@@ -34,6 +41,9 @@ module test_tb;
   reg [3:0] FAULT_AT;
   reg FAULT_TYPE;
   reg net_f;
+
+//initialization of the variables
+
   initial begin
     A = 0;
     B = 0;
